@@ -15,3 +15,13 @@ The substring with start index = 0 is "cba", which is an anagram of "abc".
 The substring with start index = 6 is "bac", which is an anagram of "abc".
 */
 
+/*
+1. 怎么loop，一段一段的string
+2. 见到string -》好的习惯是直接转换，这样可以避免用charAt（）
+char[] sc = s.toCharArray();
+char[] pc = p.toCharArray();
+
+1.可以枚举所有的substring，然后在用判断，每一个是不是
+2.升级做法，用silding window
+判断个数。
+*/
