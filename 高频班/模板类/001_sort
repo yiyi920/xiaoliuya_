@@ -1,3 +1,18 @@
+#### Quick Sort
+//https://www.lintcode.com/problem/sort-integers-ii/description
+quick sort:快，且空间复杂度低于merge sort
+先整体，在局部。
+- 首先partition. 返还一个partition的那个中间点的位置: 这个时候, 所有小于nums[partitionIndex] 都应该在 partitionIndex左边
+- 然后劈开两半
+- 前后各自 quick sort, recursively
+- 注意：在partition里面, 比较的时候nums[start] < pivot, nums[end]>pivot, 如果写成了 <= 会 stack overflow. ---整体有序，内部还是无序。
+所谓的先整体，在局部
+- Time O(nlogn), Space: O(1)
+// https://www.lintcode.com/problem/reverse-pairs/description
+merge sort
+
+
+
 public class Solution {
     /*
      * @param A: an integer array
