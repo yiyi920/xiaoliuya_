@@ -1,1 +1,87 @@
+/*
+这两种方法都必须掌握
 
+1.常规的hashmap写法，
+2.针对character hashmap写法，用数组表示
+
+Write a method anagram(s,t) to decide if two strings are anagrams or not.
+
+Example
+Example 1:
+
+Input: s = "ab", t = "ab"
+Output: true
+Example 2:
+
+Input:  s = "abcd", t = "dcba"
+Output: true
+Example 3:
+
+Input:  s = "ac", t = "ab"
+Output: false
+Challenge
+O(n) time, O(1) extra space
+
+Clarification
+What is Anagram?
+
+Two strings are anagram if they can be the same after change the order of characters.
+*/
+
+public class Solution {
+    /**
+统计每个字母的数量，比较是否一致即可
+     */
+    public boolean anagram(String s, String t) {
+        // write your code here
+        int[] cntS = new int[256];
+        int[] cntT = new int[256];
+        for (char c : s.toCharArray()) {
+            cntS[c]++;
+        }
+        for (char c : t.toCharArray()) {
+            cntT[c]++;
+        }
+        for (int i = 0; i < 256; i++) {
+            System.out.println(cntS[i]);
+            System.out.println(cntT[i]);
+            if (cntS[i] != cntT[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+public class Solution {
+
+    public boolean anagram(String s, String t) {
+        if(s.length() != t.length()){
+            return false;
+        }
+         HashMap<Character, Integer> source = new HashMap<>();
+        
+        for(char c : s.toCharArray()){
+            if(source.containsKey(c)){
+                source.put(c, source.get(c) + 1);
+            }else{
+                source.put(c, 1);
+            }
+        }
+        
+        for(char c : t.toCharArray()){
+            if(source.containsKey(c)){
+                source.put(c, source.get(c) - 1);
+                if(source.get(c) == 0){
+                    source.remove(c);
+                }
+            }else{
+                return false;
+            }
+        }
+        
+        return source.isEmpty(); //string is empty then return true
+        
+    }
+}
