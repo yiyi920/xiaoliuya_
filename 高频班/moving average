@@ -12,7 +12,7 @@ https://www.jiuzhang.com/solution/moving-average-from-data-stream/
             
         }
         why
-        
+        returns and removes 
 
 */
 class MovingAverage {
