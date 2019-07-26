@@ -3,6 +3,7 @@
 
 1.常规的hashmap写法，
 2.针对character hashmap写法，用数组表示
+经典背诵
 
 Write a method anagram(s,t) to decide if two strings are anagrams or not.
 
