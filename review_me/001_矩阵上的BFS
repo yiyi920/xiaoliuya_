@@ -1,1 +1,19 @@
+/*
+举例子
+number of islands
+https://www.lintcode.com/problem/number-of-islands/description
+1.要想明白谁是点谁是边
+2.这样可以转换成->undirectd graph-> https://www.lintcode.com/problem/connected-component-in-undirected-graph/description
+3.图就是点和边的集合->可以想象成所有为1的点，然后所有1连接起来
+4.通过一个点求出上下左右点的技巧
+5.dx dy in bound问题->不要越界->
+6.要会写visit数组
+boolean[][] visit = new boolean[grid.length][grid[0].length]
 
+// magic numbers!
+int[] directionX = {0, 1, -1, 0};
+int[] directionY = {1, 0, 0, -1};
+
+
+
+*/
