@@ -84,7 +84,9 @@ public class Solution {
         return ans;
     }
     
-    //相当于模拟for loop， x： start index，l endindex 
+    //相当于模拟for loop， x： start index，l endindex 一共
+
+
     private void dfs(int x, int l, String str, String digits, String phone[], List<String> ans) {
         if (x == l) {
             ans.add(str);
