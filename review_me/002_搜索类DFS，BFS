@@ -1,1 +1,99 @@
 
+https://www.lintcode.com/problem/letter-combinations-of-a-phone-number/description
+
+/*
+425. Letter Combinations of a Phone Number
+
+1.用String array存所有字母，对每个letter进行permutation
+2.DFS 的本质，是模拟嵌套for循环。
+3.记下dfs状态方法：三种
+  a. 把所有记录状态的参数，全部写到函数里面
+  b.
+  c.
+举例子：
+
+private void dfs(int x, int l, String str, String digits, String phone[], List<String> ans) {
+        if (x == l) {
+            ans.add(str);
+            return;
+        }
+        int d = digits.charAt(x) - '0'; 强制换int
+        for (char c : phone[d].toCharArray()) {
+            dfs(x + 1, l, str + c, digits, phone, ans);
+        }
+    }
+
+
+*   
+*
+*/    
+public class Solution {
+    /**
+     * @param digits: A digital string
+     * @return: all posible letter combinations
+     */
+    String[] KEYBOARD = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+     
+    public List<String> letterCombinations(String digits) {
+        // write your code here
+        List<String> results = new ArrayList<>();
+        if(digits == null || digits.equals("")) {
+            return results;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        dfs(digits, sb, results, 0);
+        return results;
+    }
+    
+    private void dfs(String digits, StringBuilder sb, List<String> results, int index) {
+        if(digits.length() == index) {
+            results.add(sb.toString());
+            return;
+        }
+        
+        
+        for(char c : KEYBOARD[Character.getNumericValue(digits.charAt(index))].toCharArray()) {
+            sb.append(c);
+            dfs(digits, sb, results, index+1);
+           sb.deleteCharAt(sb.length()-1);
+        }
+    }
+}
+
+DFS，改自Permutation模板。每次拿出当前要处理的数字digitChars[startIndex]，遍历对应的字母（3或4种可能）。
+这道题不需要考虑重复元素，也不需要考虑是否已经visit（一直向后访问即可）。
+
+///////////// version: 高频题班
+
+public class Solution {
+    /**
+     * @param digits: A digital string
+     * @return: all posible letter combinations
+     */
+    public List<String> letterCombinations(String digits) {
+    //首先预处理操作
+        String[] phone = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+        List<String> ans = new ArrayList<>();
+        if (digits.length() == 0) {
+            return ans;
+        }
+
+        dfs(0, digits.length(), "", digits, phone, ans);
+        return ans;
+    }
+    
+    //相当于模拟for loop， x： start index，l endindex 
+    private void dfs(int x, int l, String str, String digits, String phone[], List<String> ans) {
+        if (x == l) {
+            ans.add(str);
+            return;
+        }
+        int d = digits.charAt(x) - '0';
+        for (char c : phone[d].toCharArray()) {
+            dfs(x + 1, l, str + c, digits, phone, ans);
+        }
+    }
+}
+
