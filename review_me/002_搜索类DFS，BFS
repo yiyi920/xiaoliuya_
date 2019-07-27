@@ -3,12 +3,13 @@ https://www.lintcode.com/problem/letter-combinations-of-a-phone-number/descripti
 
 /*
 425. Letter Combinations of a Phone Number
+combination的模板---找题目练习和举例子
 
 1.用String array存所有字母，对每个letter进行permutation
 2.DFS 的本质，是模拟嵌套for循环。
 3.记下dfs状态方法：三种
-  a. 把所有记录状态的参数，全部写到函数里面
-  b.
+  a. 把所有记录状态的参数，全部写到函数里面,枚举型的，尽量用这种，就跟写for loop一样.
+  b. 中间不改变的量，可以不放到函数里面.-----不推荐
   c.
 举例子：
 
@@ -65,7 +66,7 @@ DFS，改自Permutation模板。每次拿出当前要处理的数字digitChars[s
 这道题不需要考虑重复元素，也不需要考虑是否已经visit（一直向后访问即可）。
 
 ///////////// version: 高频题班
-
+这用的a，然后➕模拟嵌套for循环
 public class Solution {
     /**
      * @param digits: A digital string
@@ -76,7 +77,7 @@ public class Solution {
         String[] phone = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
         List<String> ans = new ArrayList<>();
-        if (digits.length() == 0) {
+        if (digits.length() == 0 || digits == null) {
             return ans;
         }
 
@@ -84,17 +85,18 @@ public class Solution {
         return ans;
     }
     
-    //相当于模拟for loop， x： start index，l endindex 一共
+    //相当于模拟for loop， x： start index，l endindex 一共，一共有l层，x层是第x层循环
 
 
     private void dfs(int x, int l, String str, String digits, String phone[], List<String> ans) {
-        if (x == l) {
+        if (x == l) {//出口，最后一层
             ans.add(str);
             return;
         }
-        int d = digits.charAt(x) - '0';
+        int d = digits.charAt(x) - '0'; //例如字符2 - ’0‘得到的是数字2.，下一层就是x+1层.
         for (char c : phone[d].toCharArray()) {
             dfs(x + 1, l, str + c, digits, phone, ans);
+            //不需要回溯的原因是，x层的str和第x+1层的str不是一个东西，利用了String的Immutable的性质，免去了回溯的步骤
         }
     }
 }
