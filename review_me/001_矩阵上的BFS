@@ -21,20 +21,13 @@ bfs的三步走：
   2.当队列不为空的时候，拿出队头（首部）元素
   3.扩展-算出下一个x或是y，或是x，y
   
-
+bfs:
+  1.bfs 黑夜找手机，先距离为1的一个圈找，然后距离为2的一个圈走，bonus：找到了手机，也知道了你与手机的距离
+  2.走迷宫，类似黑夜找手机，这样也知道了门口的最短距离
+  3.水井向外流水
 
 */
 
-# make some nice lexed html
-source = File.read('/etc/bashrc')
-formatter = Rouge::Formatters::HTML.new
-lexer = Rouge::Lexers::Shell.new
-formatter.format(lexer.lex(source))
-
-# Get some CSS
-Rouge::Themes::Base16.mode(:light).render(scope: '.highlight')
-# Or use Theme#find with string input
-Rouge::Theme.find('base16.light').render(scope: '.highlight')
 
 //比较喜欢的一种写法
 
