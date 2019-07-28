@@ -147,9 +147,11 @@ public class Solution {
      * @param words a set of words without duplicates
      * @return all word squares
      */
+//预处理，保证开头，map的key是xxx开头，b开头，a开头。。values是
 
     void initPrefix(String[] words, Map<String, List<String>> hash) {
-        for (String item : words) {
+        for (String item : words) {//把每个单词都拿出来
+        //以空开头，把单词都放进去，相当于全放进去了？
             hash.putIfAbsent("", new ArrayList<>());
             hash.get("").add(item);
 
@@ -161,7 +163,7 @@ public class Solution {
             }
         }
     }
-
+//老模板，用集训，一共l层，在第x层
     boolean checkPrefix(int l, String nextWord, int wordLen, Map<String, List<String>> hash, List<String> squares) {
         for (int j = l + 1; j < wordLen; j++) {
             String prefix = "";
@@ -211,4 +213,106 @@ public class Solution {
     }
 }
       
+
+
+这个：
+
+public class Solution {
+    public List<List<String>> wordSquares(String[] words) {
+        List<List<String>> res = new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (String word : words) {
+            for (int i = 1; i <= word.length(); i++) {
+                String prefix = word.substring(0, i);
+                if (!map.containsKey(prefix)) {
+                    map.put(prefix, new ArrayList<String>());
+                }
+                map.get(prefix).add(word);
+            }
+        }
         
+        List<String> path = new ArrayList<>();
+        for (String w : words) {
+            path.add(w);   //for example: try to add "ball" first
+            dfs(words, 1, path, map, res, w.length());
+            path.remove(path.size() - 1);
+        }
+        
+        return res;
+    }
+    
+    private void dfs(String[] words, int startIndex, List<String> path, Map<String, List<String>> map,
+        List<List<String>> res, int wordLen) {
+        //startIndex代表的是当前加入到path中的是第几个单词
+        if (startIndex == wordLen) {
+            res.add(new ArrayList<String>(path));
+            return;
+        }
+        
+        //find prefix of next words
+        String prefix = "";
+        for (String p : path) {
+            prefix += p.charAt(startIndex);
+        }
+        
+        //search all words starting with the prefix derived above from HashMap
+        if (!map.containsKey(prefix)) {
+            //如果按照当前的prefix在map中找不到对应的单词，说明之前选的单词的尝试是不对的。
+            return;
+        }
+        
+        //找到以prefix打头的单词们后，把这些单词们加到list中，依次拿出来进行尝试
+        List<String> allNexts = map.get(prefix);
+        for (String next : allNexts) {
+            path.add(next);
+            dfs(words, startIndex + 1, path, map, res, next.length());
+            path.remove(path.size() - 1);
+        }
+    }
+   
+}
+
+https://www.lintcode.com/problem/expression-add-operators/description
+
+最难的地方，要记录last factor
+
+public class Solution {
+    /**
+     * @param num    a string contains only digits 0-9
+     * @param target an integer
+     * @return return all possibilities
+     */
+    
+    void dfs(String num, int target, int start, String str, long sum, long lastF, List<String> ans) {
+        if (start == num.length()) {
+            if (sum == target) {
+                ans.add(str);
+            }
+            return;
+        }
+        for (int i = start; i < num.length(); i++) {
+            long x = Long.parseLong(num.substring(start, i + 1));
+
+            if (start == 0) {
+                dfs(num, target, i + 1, "" + x, x, x, ans);
+            } else {
+                dfs(num, target, i + 1, str + "*" + x, sum - lastF + lastF * x, lastF * x, ans);
+                dfs(num, target, i + 1, str + "+" + x, sum + x, x, ans);
+                dfs(num, target, i + 1, str + "-" + x, sum - x, -x, ans);
+            }
+            if (x == 0) {
+                break;
+            }
+        }
+    }
+
+    public List<String> addOperators(String num, int target) {
+        // Write your code here
+        List<String> ans = new ArrayList<>();
+        dfs(num, target, 0, "", 0, 0, ans);
+        return ans;
+    }
+}
+
+
+
