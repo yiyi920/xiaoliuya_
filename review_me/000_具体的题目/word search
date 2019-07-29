@@ -1,0 +1,126 @@
+这个版本比较的规整，
+把功能函数化
+https://leetcode.com/problems/word-search/
+
+
+这个目前有bug
+public class Solution {
+    /**
+     * @param board: A list of lists of character
+     * @param word: A string
+     * @return: A boolean
+     */
+    public boolean exist(char[][] board, String word) {
+        // write your code here
+        if (board == null || board.length == 0 || board[0].length == 0) {
+            return false;
+        }
+        
+        int m = board.length, n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(board, 0, word, i, j, visited)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    int[] dirX = {1, 0, 0, -1};
+    int[] dirY = {0, -1, 1, 0};
+    private boolean dfs(char[][] board, int index, String word, int x, int y, boolean[][] visited) {
+        char ch = board[x][y];
+        if (ch != word.charAt(index)) {
+            return false;
+        }
+        if (index == word.length() - 1) {
+            return true;
+        }
+        
+        for (int i = 0; i < 4; i++) {
+            int adjx = x + dirX[i];
+            int adjy = y + dirY[i];
+            
+            if (!isBounded(adjx, adjy, board) || visited[adjx][adjy]) {
+                continue;
+            }
+            
+            visited[adjx][adjy] = true;
+            if (dfs(board, index + 1, word, adjx, adjy, visited)) {
+                return true;
+            }
+            visited[adjx][adjy] = false;
+        }
+        
+        return false;
+    }
+    
+    private boolean isBounded(int x, int y, char[][] board) {
+        int m = board.length, n = board[0].length;
+        return x >= 0 && x < m && y >=0 && y < n;
+    }
+    
+    
+}
+
+
+第二种：
+
+public class Solution {
+    private static final int[] dr = {0,1,0,-1};
+    private static final int[] dc = {1,0,-1,0};
+    
+    /**
+     * @param board: A list of lists of character
+     * @param word: A string
+     * @return: A boolean
+     */
+    public boolean exist(char[][] board, String word) {
+        // write your code here
+        if (board == null || board.length == 0 || board[0].length == 0 || 
+            word == null || word.length() == 0)
+            return false;
+        
+        int n = board.length, m = board[0].length;
+        boolean[][] visited = new boolean[n][m];
+        
+        for (int r = 0; r < n; r++)
+        for (int c = 0; c < m; c++) {
+            if (dfs(board, visited, r, c, word, 0))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean dfs(char[][] board, boolean[][] visited, int row, int col, 
+            String word, int wid)
+    {
+        if (board[row][col] != word.charAt(wid))
+            return false;
+        else if (wid == word.length()-1)
+            return true;
+        
+        int n = board.length, m = board[0].length;
+        boolean found = false;
+        visited[row][col] = true;
+        
+        for (int k = 0; k < 4; k++) {
+            int nr = row + dr[k];
+            int nc = col + dc[k];
+            
+            if (nr>=0 && nr<n && nc>=0 && nc<m && !visited[nr][nc]) {
+                found = dfs(board, visited, nr, nc, word, wid+1);
+                if (found)
+                    break;
+            }
+        }
+
+        visited[row][col] = false;
+        return found;
+    }
+}
