@@ -1,0 +1,45 @@
+/*
+语法上的主要：
+int[] result = {map.get(nums[i]), i};
+int[] result = {};
+或是用：
+int[] rst = new int[2];
+rst[0] = map.get(target - nums[i]);
+rst[1] = i;
+*/
+
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){
+            if (map.get(nums[i]) != null) {
+                int[] result = {map.get(nums[i]), i};
+                return result;
+            }
+            map.put(target - nums[i], i);
+        }
+        int[] result = {};
+        return result;
+    }
+}
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] rst = new int[2];
+        if (nums == null || nums.length <= 1) return rst;
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                rst[0] = map.get(target - nums[i]);
+                rst[1] = i;
+                break;
+            } 
+            map.put(nums[i], i);
+        }
+        return rst;
+    }
+}
+
+
