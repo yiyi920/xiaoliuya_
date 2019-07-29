@@ -42,4 +42,5 @@ class Solution {
     }
 }
 
-
+follow up:
+主要是sorted，只是让题目更简单了
