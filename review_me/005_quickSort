@@ -400,3 +400,26 @@ class Solution {
 
 
 
+Kth Smallest Numbers in Unsorted Array
+从大到小排
+while (left <= right) {
+while (left <= right && nums[left] > pivot) {
+    left++;
+}
+while (left <= right && nums[right] < pivot) {
+    right--;
+}
+if (left <= right) {
+    swap(nums, left, right);
+    left++;
+    right--;
+}
+}
+
+if (k <= right) {
+return partition(nums, start, right, k);
+}
+if (k >= left) {
+return partition(nums, left, end, k);
+}
+return nums[k];
