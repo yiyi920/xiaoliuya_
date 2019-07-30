@@ -44,3 +44,20 @@ class Solution {
 
 follow up:
 主要是sorted，只是让题目更简单了
+但是需要注意的点是：
+long sum = (long)(numbers[start] + numbers[end]);
+加起来可能会stack overflow
+然后
+看起来这样写，简洁一些，index注意要+1；
+但是why？
+The output requires 1 based index not 0 based
+nevermind
+long v = num[left] + num[right];
+in case of the integer overflow.
+
+        while (start < end) {
+            long sum = (long)(numbers[start] + numbers[end]);
+            if (sum == target) {
+                result[0] = start + 1;
+                result[1] = end + 1;
+                break;
