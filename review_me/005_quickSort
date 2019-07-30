@@ -1,0 +1,402 @@
+https://www.lintcode.com/problem/median/description
+题目并不是很重要
+重要是quickSort的模板
+这个其实是quickSelect
+
+考点：
+
+区间第k大元素的查找
+题解：
+利用快速排序的思想指导，不断递归将一个区间分为左右两个小区间，当枢轴左区间大小为所求中位数位置时，寻找到返回值。
+经过一次划分之后，枢轴pivot将原序列划分为两个部分：S和T [pivot包含在子序列S中]，会出现下列三种情况：
+
+·子序列S中有K个数，此时pivot位置即为第K大的数，返回
+
+·子序列S中的数字个数小于K，假设个数为L，则需要子序列T中继续递归划分出来前(K-L)个数
+
+·子序列S中的数字个数大于K，则需要子序列S中继续递归划分出来前K个数
+
+
+public class Solution {
+    /**
+     * @author WildCat
+     * @param nums: A list of integers
+     * @return: An integer denotes the middle number of the array
+     */
+    public int median(int[] nums) {
+        // write your code here
+        
+        // Please note: the `k` must be (nums.length + 1) / 2 - 1 in order to satisfy the requirement
+        return partition(nums, 0, nums.length - 1, (nums.length + 1) / 2 - 1);
+    }
+    
+    // Same to find kth smallest element in an array
+    // Modified for the partition function of quicksort
+    private int partition(int[] nums, int left, int right, int k) {
+        if (left == right) {
+            return nums[k];
+        }
+        
+        int start = left;
+        int end = right;
+        int pivot = nums[(end - start) / 2 + start];
+        while (start <= end) {
+            while (nums[start] < pivot && start <= end) {
+                start++;
+            }
+            while (nums[end] > pivot && start <= end) {
+                end--;
+            }
+            if (start <= end) {
+            //这个部分可以函数化，写成swap函数.
+                int temp = nums[start];
+                nums[start] = nums[end];
+                nums[end] = temp;
+                start++;
+                end--;
+            }
+        }
+        
+        // dfs 这一段严格意义上讲，很像，或是可以理解成dfs调用
+        if (k <= end) {
+            return partition(nums, left, end, k); //小技巧是这两个partion是重复的有一小部分才行。start是大于end
+        } else if (k >= start) {
+            return partition(nums, start, right, k);
+        }
+        return nums[k];
+    }
+}
+
+函数化：
+private void swap(int[] nums, int x, int y) {
+    int temp = nums[x];
+    nums[x] = nums[y];
+    nums[y] = temp;
+}
+    
+    
+别人写的一些方法：
+https://www.jiuzhang.com/solution/median/#tag-other
+
+第二个题目：
+https://www.lintcode.com/problem/sort-integers-ii/description
+常见的nlogn sort
+
+public class Solution {
+    /*
+     * @param A: an integer array
+     * @return: 
+     */
+    public void sortIntegers2(int[] A) {
+        if (A == null || A.length == 0) {
+            return;
+        }
+        
+        /* merge sort */
+        // mergeSort(A);
+        
+        /* quick sort */
+        // quickSort(A);
+        
+        /* heap sort */
+        heapSort(A);
+    }
+    
+    
+    /**
+     * Merge Sort.
+     */
+    public void mergeSort(int[] nums) {
+        int[] tmp = new int[nums.length];
+        mergeSort(nums, tmp, 0, nums.length - 1);
+    }
+    
+    private void mergeSort(int[] nums, int[] tmp, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        
+        // divide
+        int mid = start + (end - start) / 2;
+        mergeSort(nums, tmp, start, mid);
+        mergeSort(nums, tmp, mid + 1, end);
+        
+        // merge
+        int index = start;
+        int leftStart = start;
+        int rightStart = mid + 1;
+        
+        while (leftStart <= mid && rightStart <= end) {
+            if (nums[leftStart] <= nums[rightStart]) {
+                tmp[index++] = nums[leftStart++];
+            } else {
+                tmp[index++] = nums[rightStart++];
+            }
+        }
+        
+        while (leftStart <= mid) {
+            tmp[index++] = nums[leftStart++];
+        }
+        
+        while (rightStart <= end) {
+            tmp[index++] = nums[rightStart++];
+        }
+        
+        for (int i = start; i <= end; i++) {
+            nums[i] = tmp[i];
+        }
+    }
+    
+    
+/*    /**
+     * Quick sort.
+     */
+    public void quickSort(int[] nums) {
+        quickSort(nums, 0, nums.length - 1);
+    }
+    
+    private void quickSort(int[] nums, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        
+        int left = start;
+        int right = end;
+        int mid = start + (end - start) / 2;
+        int pivot = nums[mid];
+        
+        // overview sorted
+        while (left <= right) {
+            while (left <= right && nums[left] < pivot) {
+                left++;
+            }
+            
+            while (left <= right && nums[right] > pivot) {
+                right--;
+            }
+            
+            // swap left >= p with right <= p to make left <= p right >= p
+            if (left <= right) {
+                int tmp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = tmp;
+                left++;
+                right--;
+            }
+        }
+        
+        quickSort(nums, start, right);
+        quickSort(nums, left, end);
+    }
+    
+    
+    /**
+     * Heap sort.
+     */
+    public void heapSort(int[] nums) {
+        // build max heap: for each root node bottom to top and right to left
+        for (int i = nums.length / 2; i >= 0; i--) {
+            maxHeapify(nums, i, nums.length - 1);
+        }
+        
+        // swap first and adjust the new root to right position
+        for (int i = nums.length - 1; i > 0; i--) {
+            int tmp = nums[0];
+            nums[0] = nums[i];
+            nums[i] = tmp;
+            // after each iteration, largest goes to ith, next end at i - 1
+            maxHeapify(nums, 0, i - 1);
+        }
+    }
+    
+    private void maxHeapify(int[] nums, int start, int end) {
+        int parent = start;
+        
+        // top to bottom
+        while (parent <= end) {
+            int left = parent * 2 + 1;
+            int right = parent * 2 + 2;
+            int child = -1;
+            
+            if (left <= end && right <= end) {
+                // large value as swap candidate
+                child = (nums[left] >= nums[right] ? left : right);
+            } else if (left <= end) {
+                child = left;
+            } else {
+                return;
+            }
+            
+            // max heap root >= left && root >= right
+            if (nums[parent] >= nums[child]) {
+                return;
+            }
+            
+            // swap
+            int tmp = nums[parent];
+            nums[parent] = nums[child];
+            nums[child] = tmp;
+            
+            // update parent index
+            parent = child;
+        }
+    }
+}
+https://www.lintcode.com/problem/kth-smallest-numbers-in-unsorted-array/description
+quickSelect和quickSort区别是啥。。。LOL
+令狐老师小视频的模板代码.
+partition的quick select算法.
+注意, 此题和quick sort有些不同.
+如果start == end, 证明已经找到, return nums[start]即可.
+如果while的判断是left<=right. 则有可能在partition后right和left之间有一个数.
+因此, 我们要做出相应的判断和改变. partition后看三个区间.
+第一个区间是从start到right, 如果k在这个范围, 即start + k - 1 <= right, 继续在这个范围找k个数.
+第二个区间是从left到end, 如果k在这个范围, 即start + k - 1 >= left. 要在这个范围找k-(left - start)个数.
+或者k在right和left之间.这里面只有一个数, 那么return nums[right + 1]即可.
+注意, 此题是找第k个小的数, 因此partition里要变换为nums[left] < pivot 跳过, nums[right] > pivot跳过.
+
+
+class Solution {
+    /*
+     * @param k an integer
+     * @param nums an integer array
+     * @return kth smallest element
+     */
+    public int kthSmallest(int k, int[] nums) {
+        return quickSelect(nums, 0, nums.length - 1, k - 1);
+    }
+
+    public int quickSelect(int[] A, int start, int end , int k) {
+        if (start == end)
+            return A[start];
+        
+        int left = start, right = end;
+        int pivot = A[(start + end) / 2];
+
+        while (left <= right) {
+            while (left <= right && A[left] < pivot) {
+                left++;
+            }
+            while (left <= right && A[right] > pivot) {
+                right--;
+            }
+            if (left <= right) {
+                int temp = A[left];
+                A[left] = A[right];
+                A[right] = temp;
+                
+                left++;
+                right--;
+            }
+        }
+
+        if (right >= k && start <= right)
+            return quickSelect(A, start, right, k);
+        else if (left <= k && left <= end)
+            return quickSelect(A, left, end, k);
+        else
+            return A[k];
+    }
+};
+
+但是kth 问题，自己的总结
+
+public class Solution {
+    /**
+     * @param k: An integer
+     * @param nums: An integer array
+     * @return: kth smallest element
+     */
+    public int kthSmallest(int k, int[] nums) {
+        // write your code here
+      
+    PriorityQueue<Integer> q = new PriorityQueue<Integer>(k,(o1,o2) -> o2 - o1);
+    for(int i: nums){
+        q.offer(i);
+ 
+        if(q.size()>k){
+            q.poll();
+        }
+    }
+ 
+    //return q.peek();都是正确答案，但是peek更专业一点。
+    return q.poll();    
+    }
+}
+
+https://www.lintcode.com/problem/kth-largest-element/description
+最大，就用minheap，时间复杂度
+快速选择算法
+quickSelect 是o(n）
+
+
+标准模板：
+class Solution {
+    /*
+     * @param k : description of k
+     * @param nums : array of nums
+     * @return: description of return
+     */
+    public int kthLargestElement(int k, int[] nums) {
+        if (nums == null || nums.length == 0 || k < 1 || k > nums.length){
+            return -1;
+        }
+        return partition(nums, 0, nums.length - 1, nums.length - k);
+    }
+    
+    private int partition(int[] nums, int start, int end, int k) {
+        if (start >= end) {
+            return nums[k];
+        }
+        
+        int left = start, right = end;
+        int pivot = nums[(start + end) / 2];
+        
+        while (left <= right) {//有等号的原因，是只有一个元素的时候，
+        //小的放在pivot左边
+            while (left <= right && nums[left] < pivot) {
+                left++;
+            }
+            while (left <= right && nums[right] > pivot) {
+                right--;
+            }
+            if (left <= right) {
+                swap(nums, left, right);
+                left++;
+                right--;
+            }
+        }
+        //partition 做完，right一定要在left左边.有两种情况
+        //right-中间隔一个-left
+        //right-挨在一起-left
+        // --start--right-中间有或是没有两种情况-left--end--
+        if (k <= right) {
+            return partition(nums, start, right, k);
+        }
+        if (k >= left) {
+            return partition(nums, left, end, k);
+        }
+        return nums[k];//第k大，所以这样写，如果k小
+        /************************************************************************************************************
+        kth smallest,反着来，需要背诵一下。
+        if (start + k - 1 <= right) {
+            return quickSelect(nums, start, right, k);
+        }
+        
+        if (start + k - 1 >= left) {
+            return quickSelect(nums, left, end, k - (left - start)); //left ~ end 是右边大的那一段，找k小，因为小~大牌，但是是偏大那一拨，
+        }
+        
+        return nums[right + 1];
+        *****************************************************************************************************************/
+    }    
+    
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+};
+
+
+
