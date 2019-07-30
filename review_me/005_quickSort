@@ -423,3 +423,7 @@ if (k >= left) {
 return partition(nums, left, end, k);
 }
 return nums[k];
+
+
+partition quickSelect 比quickSort多一个 target.
+quickSort 的partition是return start index
