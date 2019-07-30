@@ -82,6 +82,14 @@ public static void main(String[] args) {
         }
     }
     
-    /***************************************************************************************************************/
+/***************************************************************************************************************/
+    How do I efficiently iterate over each entry in a Java Map?
+    Map<String, String> map = ...
+    for (Map.Entry<String, String> entry : map.entrySet()) {
+        System.out.println(entry.getKey() + "/" + entry.getValue());
+    }
     
+https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+
+
     
