@@ -19,3 +19,5 @@ for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 
 /***************************************************************************************************************/
 
+int min = Integer.MAX_VALUE;
+Math.min
