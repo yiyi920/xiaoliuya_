@@ -101,3 +101,7 @@ for(Map.Entry<String, HashMap> entry : selects.entrySet()) {
     // do what you have to do here
     // In your case, another loop.
 }   
+
+/***************************************************************************************************************/
+转换string 然后和string的一些操作方法.
+String rst = new StringBuilder(Math.abs(num)+"").reverse().toString();
