@@ -1,0 +1,125 @@
+/*
+Design and implement a data structure for Least Recently Used (LRU) cache. 
+It should support the following operations: get and put.
+get(key) - Get the value (will always be positive) of the key 
+if the key exists in the cache, otherwise return -1.
+put(key, value) - Set or insert the value if the key is not already present. 
+When the cache reached its capacity, it should invalidate the least recently used item 
+before inserting a new item.
+Follow up:
+Could you do both operations in O(1) time complexity?
+Example:
+LRUCache cache = new LRUCache( 2 ); //capacity 
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // returns 1
+cache.put(3, 3);    // evicts key 2
+cache.get(2);       // returns -1 (not found)
+cache.put(4, 4);    // evicts key 1
+cache.get(1);       // returns -1 (not found)
+cache.get(3);       // returns 3
+cache.get(4);       // returns 4
+*/
+
+when we try to do fast look up, hashtable is the first thing
+LRU 就是固定size，最新进来在尾部，然后不常用的在头部，超出size，就删除
+fast remove-- doublely linkedlist，also dl不用resizing，because dl is basiclly a
+bunch of pointers
+https://www.youtube.com/watch?v=S6IfqDXWa10
+
+如果需要炫技的？用singly linkedlist
+
+1. The design uses HashMap, and 2-way LinkedList. Map<key, LinkNode>
+2. Use two dummy node: head and tail. When add/remove nodes, we are add/remove nodes in between head and tail.
+	So. head.next is our real 1st element
+	andd tail.pre is our real last element
+Note:
+Be careful: when removing a node due to capacity issue, remember to remove both 1st 
+node(head.next) and the corresponding entry in the map: map.remove(head.next.key)
+
+dummy head 双向 hashtable + ... + hashtable + dummy tail
+
+//Use double linked list to store value.
+//Store key in hashmap<key, node> to find node easily
+//Functions: insert in front, remove node, 
+
+public class LRUCache {
+    class DoubleLinkedListNode {
+        int key, val;
+        DoubleLinkedListNode next,prev;
+        public DoubleLinkedListNode(int key, int val){
+            this.key = key;
+            this.val = val;
+            next = null;
+            prev = null;
+        }
+    }
+    public int capacity;
+    public HashMap<Integer, DoubleLinkedListNode> map;
+    public DoubleLinkedListNode head, tail;
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+        this.head = new DoubleLinkedListNode(-1, -1);
+        this.tail = new DoubleLinkedListNode(-1, -1);
+        head.next = tail;
+        head.prev = tail;
+        tail.next = head;
+        tail.prev = head;
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key)) {
+            return -1;
+        }
+        DoubleLinkedListNode node = map.get(key);
+        moveToHead(node);
+        return node.val;
+    }
+    
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            map.get(key).val = value;
+            moveToHead(map.get(key));
+        } else {
+            DoubleLinkedListNode node = new DoubleLinkedListNode(key, value);
+            if (map.size() >= this.capacity) {
+                DoubleLinkedListNode rm = tail.prev;
+                remove(rm);
+                map.remove(rm.key);
+            }
+            insertHead(node);
+            map.put(key, node);
+        }
+    }
+
+    public void moveToHead(DoubleLinkedListNode node) {
+        remove(node);
+        insertHead(node);
+    }
+    
+    //Helper functions
+    /*
+        Put node to front, where the latest item is at.
+     */
+    public void insertHead(DoubleLinkedListNode node) {
+        DoubleLinkedListNode next = head.next;
+        head.next = node;
+        node.prev = head;
+        node.next = next;
+        next.prev = node;
+    }
+
+    /*
+        Find front and end, link them.
+     */
+    public void remove(DoubleLinkedListNode node) {
+        DoubleLinkedListNode front = node.prev;
+        DoubleLinkedListNode end = node.next;
+        front.next = end;
+        end.prev = front;
+    }  
+}
+
+
+
