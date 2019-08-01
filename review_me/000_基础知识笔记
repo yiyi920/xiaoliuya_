@@ -137,3 +137,13 @@ string.charAt(i) - '0' --> 就是int
 
 
 /***************************************************************************************************************/
+    ListNode find(ListNode bucket, int key) {
+        ListNode node = bucket, prev = null;
+        while (node != null && node.key != key) {
+            prev = node;
+            node = node.next;
+        }
+        return prev;
+    }
+    
+    在linkedlist里面，是不是可以简单记忆prev = node; 等价于 prev-》node-》node.next
