@@ -1,0 +1,54 @@
+https://www.lintcode.com/problem/find-median-from-data-stream/description
+
+偶数个数组的处理可能不一样，需要看要求
+
+challenge: nlogn
+把求中位数，转换成求最值
+所有分成两个heap，《= mid，》mid
+
+左边是大根堆，比右边小根堆元素要小
+思路和上面一样，只是代码略微不同
+维护一个最大堆和一个最小堆，最大堆放数组前半部份的数（假设从小到大排序），最小堆放数组后半部分的数
+如果数组个数为偶数，则最大堆和最小堆大小相同，按照题目要求，返回num[(n - 1) / 2]，则是最大堆的peek
+如果数组个数为奇数，则最大堆元素个数= 最小堆+1, 则也正好是最大堆的peek
+
+
+class MedianFinder {
+    PriorityQueue<Integer> minHeap;// later
+    PriorityQueue<Integer> maxHeap;// former
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        minHeap = new PriorityQueue<Integer>();
+        maxHeap = new PriorityQueue<Integer>(10, Collections.reverseOrder());
+    }
+    
+    public void addNum(int num) {
+        // maxHeap.size() = minHeap.size() + 1
+        if (maxHeap.isEmpty()) {
+            maxHeap.add(num);
+            return;
+        }
+        int currMedian = maxHeap.peek();
+        if (num <= currMedian) {
+            maxHeap.offer(num);
+        } else {
+            minHeap.offer(num);
+        }
+        // make sure: maxHeap.size() = minHeap.size() + 1
+        if (maxHeap.size() > minHeap.size() + 1) {
+            minHeap.offer(maxHeap.poll());
+        } else if (maxHeap.size() < minHeap.size()) {
+            maxHeap.offer(minHeap.poll());
+        }
+    }
+    
+    public double findMedian() {
+        if (minHeap.size() == maxHeap.size()) {
+            return (minHeap.peek() + maxHeap.peek()) / 2.0;
+        } else {
+            return maxHeap.peek();
+        }
+    }
+}
+
+https://github.com/awangdev/LintCode/blob/master/Java/Find%20Median%20from%20Data%20Stream.java
