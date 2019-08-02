@@ -158,3 +158,22 @@ nlogn
 logn是提示：heap，binary search，二叉树，归并，dc
 关于string一些：
 String[] val = data.substring(1, data.length() - 1).split(",");
+
+
+基础知识 hashmap：
+
+class Solution {
+    public int firstUniqChar(String s) {
+        HashMap<Character, Integer> count = new HashMap<Character, Integer>();
+        int n = s.length();
+        for(char c : s.toCharArray()){
+            count.put(c, count.getOrDefault(c, 0) + 1);//要么get要么给defalut value
+        }
+        for(int i = 0; i < n; i++){
+            if(count.get(s.charAt(i)) == 1){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
