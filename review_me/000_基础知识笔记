@@ -8,6 +8,7 @@ List<Integer> nums  ---》 nums.size()/2
 int[] nums ----》 nums.length/2
 
 如果用List<Integer>表示的， ArrayList<Integer>--》 int num = nums.get(pivot);
+list可以--》private List<Integer> array = new ArrayList<Integer>();
 /***************************************************************************************************************/
 如何loop through hash
 
