@@ -180,3 +180,7 @@ class Solution {
 https://www.lintcode.com/problem/first-unique-character-in-a-string/description
 
 还可以扩展到data stream可怕。。。看一下
+
+
+char[] charArray = s.toCharArray();
+见到string第一个反应必须是这样
