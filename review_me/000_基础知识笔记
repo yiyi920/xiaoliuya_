@@ -184,3 +184,5 @@ https://www.lintcode.com/problem/first-unique-character-in-a-string/description
 
 char[] charArray = s.toCharArray();
 见到string第一个反应必须是这样
+/***************************************************************************************************************/
+XOR bit operation:
