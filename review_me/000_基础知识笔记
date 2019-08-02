@@ -156,3 +156,5 @@ string.charAt(i) - '0' --> 就是int
 /***************************************************************************************************************/
 nlogn 
 logn是提示：heap，binary search，二叉树，归并，dc
+关于string一些：
+String[] val = data.substring(1, data.length() - 1).split(",");
