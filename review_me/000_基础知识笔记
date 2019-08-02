@@ -27,6 +27,10 @@ Math.min
 讲明白PriorityQueue
 minHeap --》 先出来的最小 -->s升序
 maxheap --》降序---》先出来最大
+ PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>((Integer a,Integer b) -> b.compareTo(a));
+  PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>((Integer a,Integer b) -> b - a);
+
+PriorityQueue<Type> pq = new PriorityQueue<Type>((Type t1, Type t2)->(t1.num - t2.num));
 
 public static void main(String[] args) {
         //这是升序 apple，PineApple，Custard Apple,
