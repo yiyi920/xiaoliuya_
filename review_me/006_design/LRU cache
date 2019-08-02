@@ -21,6 +21,8 @@ cache.get(3);       // returns 3
 cache.get(4);       // returns 4
 */
 
+Access random key in O(1),-->hashtable
+
 when we try to do fast look up, hashtable is the first thing
 LRU 就是固定size，最新进来在尾部，然后不常用的在头部，超出size，就删除
 fast remove-- doublely linkedlist，also dl不用resizing，because dl is basiclly a
