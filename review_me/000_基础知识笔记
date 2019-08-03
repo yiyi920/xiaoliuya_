@@ -183,7 +183,14 @@ https://www.lintcode.com/problem/first-unique-character-in-a-string/description
 
 
 char[] charArray = s.toCharArray();
-见到string第一个反应必须是这样
+见到string第一个反应必须是这样.
+    public boolean validWordAbbreviation(String word, String abbr) {
+        // write your code here
+        int i = 0, j =0;
+        char[] s = word.toCharArray();
+        char[] t = abbr.toCharArray();
+        i < s.length 不是length（）
+        https://www.lintcode.com/problem/valid-word-abbreviation/description
 /***************************************************************************************************************/
 XOR bit operation:
 /***************************************************************************************************************/
