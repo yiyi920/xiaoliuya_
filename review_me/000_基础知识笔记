@@ -86,7 +86,12 @@ public static void main(String[] args) {
             System.out.println(pq_nums2.poll());
         }
     }
-    
+ 一些其它的sort方式：
+ 
+ Collections.sort(intervals, ( a,  b) -> (a.start - b.start));
+ public boolean canAttendMeetings(int[][] intervals) {
+        Comparator<int[]> c=(int[] a, int[] b) -> (a[0]-b[0]);
+         Arrays.sort(intervals, c);       
 /***************************************************************************************************************/
     How do I efficiently iterate over each entry in a Java Map?
     Map<String, String> map = ...
@@ -232,3 +237,25 @@ public class Solution {
         return different.size();
     }
 }
+
+
+--->可以用一些来避开，可以用hashset，然后stringbuilder
+https://www.youtube.com/watch?v=jTNojxI1yHk&list=PLi9RQVmJD2fZgRyOunLyt94uVbJL43pZ_&index=17
+
+class Solution {
+    public int numUniqueEmails(String[] emails) {
+        Set<String> set = new HashSet<>();
+        for(String email : emails) {
+            StringBuilder sb = new StringBuilder();
+            for(char c: email.toCharArray()) {
+                if (c == '.') continue;
+                if (c == '+') break;
+                sb.append(c);
+            }
+            String cur = sb.toString() + email.substring(email.indexOf('@'));
+            set.add(cur);
+        }
+        return set.size();
+    }
+}
+
