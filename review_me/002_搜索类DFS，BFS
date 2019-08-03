@@ -74,9 +74,11 @@ public class Solution {
      */
     public List<String> letterCombinations(String digits) {
     //首先预处理操作
+    //"" dummy node, repsent 0,1
         String[] phone = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
         List<String> ans = new ArrayList<>();
+        //error checking
         if (digits.length() == 0 || digits == null) {
             return ans;
         }
