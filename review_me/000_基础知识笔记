@@ -215,3 +215,20 @@ HashSet add, contains
 
 String[] s = paragraph.split("[!?',;. ]");
 这个可以把包括空格之类的都能分开.
+
+public class Solution {
+    /**
+     * @param emails: 
+     * @return: The number of the different email addresses
+     */
+    public int numUniqueEmails(String[] emails) {
+        // write your code here
+        Set<String> different = new HashSet<>();
+        for (String email : emails) {
+            String[] parts = email.split("@");
+            String[] local = parts[0].split("\\+");
+            different.add(local[0].replace(".", "") + "@" + parts[1]);
+        }
+        return different.size();
+    }
+}
