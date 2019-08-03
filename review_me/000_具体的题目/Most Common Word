@@ -1,6 +1,6 @@
 //基础题目，但是需要知道split用法，有时候好事忘记
 、、getOrDefault
-
+String[] s = paragraph.split("[!?',;. ]");
 
 
 1369. Most Common Word
