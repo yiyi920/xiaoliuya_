@@ -259,3 +259,31 @@ class Solution {
     }
 }
 
+/***************************************************************************************************************/
+
+int[][] in the method signature refers to a double array of integers. 
+You can think of a double integer array as being a matrix of int values.
+
+Taking your example 2D array:
+
+int[][] in = {{2, 0, 2}, {3, 1, 2}, {1, 8, 4}};
+This array has the following properties:
+
+System.out.println(in.length);     // prints 3 (number of arrays inside 'in')
+System.out.println(in[0].length);  // prints 3 (number of ints in first array)
+System.out.println(in[1].length);  // also prints 3 (number of ints in second array)
+Here is a visual to show you how accessing this array works:
+
+int a = 1;
+int b = 0;
+Then in[a][b] == in[1][0] == 3:
+
+ 2 0 2
+{3 1 2} <-- a = 1 (second subarray)
+ 1 8 4
+
+{3 1 2}
+ ^-- b = 0 (first element in that subarray)
+The first index a chooses the subarray, and the index b chooses the element inside the subarray.
+
+
