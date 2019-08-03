@@ -1,0 +1,33 @@
+https://www.lintcode.com/problem/climbing-stairs/description
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Example
+Example 1:
+	Input:  n = 3
+	Output: 3
+	
+	Explanation:
+	1) 1, 1, 1
+	2) 1, 2
+	3) 2, 1
+	total 3.
+
+
+Example 2:
+	Input:  n = 1
+	Output: 1
+	
+	Explanation:  
+	only 1 way.
+
+
+记数问题.
+思考状态state-》然后转移怎么进行
+dp[i] 从第i个台阶，有几种方式
+看问题来找状态，题目问，In how many distinct ways can you climb to the top?
+然后break down，dp【i】= 然后还有一个条件没有用，Each time you can either climb 1 or 2 steps.
+最后一步看，只有两个方式，一步或是两步.
+
+
