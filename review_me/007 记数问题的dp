@@ -164,3 +164,87 @@ public class Solution {
     }
 }
 
+Unique Paths III
+慢慢升级到记忆化搜索和dfs
+算法：
+
+非常好的dfs + memo。
+
+首先题目的意思unique path是指path的total value不一样。所以最直白的做法就是先dfs找到所有的path，然后指记录total value不一样的，最后得到和。但是这样复杂度会很高，因为所有的可能path都要走一遍，然后最后才filter重复的path。
+
+这里比较一下unique path i, unique path ii, unique path iii和4-way unique path之间的区别：
+(a) unique path i因为找的是多少条不同的path，并且只能向下或者向右。如果我们使用memo[(i, j)]，其表示的是在(i, j)，后面有多少条unique path到达终点。这个memo记录的结果不会跟(i, j)从哪儿来有重复，所以可以用memo。
+(b) unique path ii跟unique path i基本一样，只是加入了obstacle。所以也可以用memo。
+(c) unique path iii。如果我们用memo[(i, j)]记录的是从(i, j)到终点所有unique path的和。那么有个问题是这些unique path跟到达(i, j)的两条路径产生的新的unique path的和可能会有重复的情况。所以直接用memo[(i, j)]记录最终的和不行。那么我们可以考虑用memo[(i,j)]去记录从(i, j)到终点各个unique path value的结果。比如(i, j)到终点一共有3条unique path value - set([2,3,4])。然后我们在dfs返回结果的时候用到达(i, j)两条路径的value加上memo[(i, j)]，最后再去重复。这样我们就可以保证dfs的最后返回结果一定是指有unique path value。从而达到记忆化的目的。
+(d) 4-way unique path。这个题目不能用记忆化，或者很难用记忆化。因为首先我们如果用memo[(i, j)]去表示从(i, j)到终点的unique path的数目，那么由于到达(i, j)可以有四个方向，所以可能会有方向跟memo[(i, j)]的路径有重复。一种可能的办法是我们用memo[(i, j)]去记录真是的从(i, j)到终点的unique path。然后再根据到(i, j)的路径方向去判断哪些在memo[(i, j)]里面的需要去重复。跟unique path iii思路类似。但是implementation有点复杂。所以暂时不考虑使用记忆化。
+
+实现：
+
+使用dfs + memo
+memo记录的是从(i, j)到终点所有的unique path value。然后在得到dfs结果的时候还要再去重复一下。
+note:
+深刻理解memo[(i, j)]记忆的是什么。什么时候可以用，什么时候不能用。
+
+public class Solution {
+    /*
+     * @param : an array of arrays
+     * @return: the sum of all unique weighted paths
+     */
+    public int uniqueWeightedPaths(int[][] grid) {
+        // write your codes here
+        if(grid.length == 0 || grid[0].length == 0){
+            return 0;
+        }
+        int m = grid.length;
+        int n = grid[0].length;
+        Map<Integer, Set<Integer>> dp = new HashMap<>();
+        dp.put(0, new HashSet<Integer>());
+        dp.get(0).add(grid[0][0]);
+        for(int i = 1; i < m; i++){
+            int cur = i * n;
+            int prev = (i-1) * n;
+            dp.put(cur, new HashSet<Integer>());
+            for(int dis: dp.get(prev)){
+                dp.get(cur).add(dis + grid[i][0]);
+            }
+        }
+        for(int j = 1; j < n; j++){
+            int cur = j;
+            int prev = j - 1;
+            dp.put(cur, new HashSet<Integer>());
+            for(int dis: dp.get(prev)){
+                dp.get(cur).add(dis + grid[0][j]);
+            }
+        }
+        
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                int cur = i * n + j;
+                int left = i * n + j - 1;
+                int up = (i - 1) * n + j;
+                dp.put(cur, new HashSet<Integer>());
+                for(int dis: dp.get(left)){
+                    dp.get(cur).add(dis+grid[i][j]);
+                }
+                for(int dis: dp.get(up)){
+                    dp.get(cur).add(dis+grid[i][j]);
+                }
+            }
+        }
+        int res = 0;
+        int index = (m-1)*n + n-1;
+        for(int dis: dp.get(index)){
+            res += dis;
+        }
+        return res;
+    }
+};
+
+// 建立一个hashmap dp， key是坐标一维化数值，value则是储存不同路径的hashset
+
+// 首先初始化dp, 对第一行和第一列进行路径的累加
+
+// 然后再遍历其他坐标
+
+// 最后对右下角的坐标对应的hashset内数值求和即可
+
