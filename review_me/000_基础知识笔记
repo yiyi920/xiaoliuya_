@@ -329,6 +329,32 @@ Then in[a][b] == in[1][0] == 3:
 The first index a chooses the subarray, and the index b chooses the element inside the subarray.
 
 /***************************************************************************************************************/
-语言翻译，能被x整除，2，3，5整除就是 num % 2，3，5 == 0
+
 /***************************************************************************************************************/
 一般的是数据流，data stream，按顺序输出，最大，最小，都是用heap会比较好。
+/***************************************************************************************************************/
+语言翻译，能被x整除，2，3，5整除就是 num % 2，3，5 == 0
+数学类的基础知识，一个int想知道他的第一位，
+
+public class Solution {
+    private int getNextHappy(int n) {
+        int sum = 0;
+        while (n != 0) {
+            sum += (n % 10) * (n % 10); //对10取模就是，最大位数的digit
+            n /= 10;
+        }
+        return sum;
+    }
+    
+    public boolean isHappy(int n) {
+        HashSet<Integer> hash = new HashSet<Integer>();
+        while (n != 1) {
+            if (hash.contains(n)) {
+                return false;
+            }
+            hash.add(n);
+            n = getNextHappy(n);
+        }
+        return true;
+    }
+}
