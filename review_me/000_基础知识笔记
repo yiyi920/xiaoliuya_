@@ -25,6 +25,7 @@ int min = Integer.MAX_VALUE;
 Math.min
 
 /***************************************************************************************************************/
+
 讲明白PriorityQueue
 minHeap --》 先出来的最小 -->s升序
 maxheap --》降序---》先出来最大
@@ -89,9 +90,50 @@ public static void main(String[] args) {
  一些其它的sort方式：
  
  Collections.sort(intervals, ( a,  b) -> (a.start - b.start));
+ 下面这个语法对
+ Collections.sort(list, (o1, o2) -> o1.getTime() - o2.getTime());
  public boolean canAttendMeetings(int[][] intervals) {
         Comparator<int[]> c=(int[] a, int[] b) -> (a[0]-b[0]);
-         Arrays.sort(intervals, c);       
+         Arrays.sort(intervals, c);   
+         
+ str 也可以sort，有时候判断是不是Anagram时候，可以sort，原理就是多想一步。。toCharArray.
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs.length == 0) return new ArrayList();
+        Map<String, List> ans = new HashMap<String, List>();
+        for (String s : strs) {
+            char[] ca = s.toCharArray();
+            Arrays.sort(ca);
+            String key = String.valueOf(ca);
+            if (!ans.containsKey(key)) ans.put(key, new ArrayList());
+            ans.get(key).add(s);
+        }
+        return new ArrayList(ans.values());
+    }
+}
+
+toCharArray followed by Arrays.sort followed by a String constructor call:
+
+import java.util.Arrays;
+
+public class Test
+{
+    public static void main(String[] args)
+    {
+        String original = "edcba";
+        char[] chars = original.toCharArray();
+        Arrays.sort(chars);
+        String sorted = new String(chars);
+        System.out.println(sorted);
+    }
+}
+或是用：
+String test= "edcba";
+char[] ar = test.toCharArray();
+Arrays.sort(ar);
+String sorted = String.valueOf(ar);
+
 /***************************************************************************************************************/
     How do I efficiently iterate over each entry in a Java Map?
     Map<String, String> map = ...
