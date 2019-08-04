@@ -31,3 +31,69 @@ dp[i] 从第i个台阶，有几种方式
 最后一步看，只有两个方式，一步或是两步.
 
 
+114. Unique Paths
+中文English
+A robot is located at the top-left corner of a m x n grid.
+
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid.
+
+How many possible unique paths are there?
+
+Example
+Example 1:
+
+Input: n = 1, m = 3
+Output: 1	
+Explanation: Only one path to target position.
+Example 2:
+
+Input:  n = 3, m = 3
+Output: 6	
+Explanation:
+	D : Down
+	R : Right
+	1) DDRR
+	2) DRDR
+	3) DRRD
+	4) RRDD
+	5) RDRD
+	6) RDDR
+Notice
+m and n will be at most 100.
+
+https://www.lintcode.com/problem/unique-paths/description
+
+public class Solution {
+    public int uniquePaths(int m, int n) {
+        if (m == 0 || n == 0) {
+            return 1;
+        }
+        
+        int[][] sum = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            sum[i][0] = 1;
+        }
+        for (int i = 0; i < n; i++) {
+            sum[0][i] = 1;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                sum[i][j] = sum[i - 1][j] + sum[i][j - 1];
+            }
+        }
+        return sum[m - 1][n - 1];
+    }
+}
+
+或是核心部分，写成这样
+
+for (int i = 1; i < m; i++) {
+    for (int j = 1; j < n; j++) {
+	if(i = || j = 0){
+	    dp[i][j] = 1;
+	    continue;
+	}
+	sum[i][j] = sum[i - 1][j] + sum[i][j - 1];
+    }
+}
+	
