@@ -328,4 +328,5 @@ Then in[a][b] == in[1][0] == 3:
  ^-- b = 0 (first element in that subarray)
 The first index a chooses the subarray, and the index b chooses the element inside the subarray.
 
-
+/***************************************************************************************************************/
+语言翻译，能被x整除，2，3，5整除就是 num % 2，3，5 == 0
