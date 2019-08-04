@@ -223,3 +223,6 @@ public int robHelper(int[] nums, int i, int j){
 
     }不一样
     }。
+
+
+继续的follow up还有binary tree 类型的，没有去看看。
