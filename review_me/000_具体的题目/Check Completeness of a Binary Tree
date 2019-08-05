@@ -1,0 +1,41 @@
+958. Check Completeness of a Binary Tree
+
+DFS 解法：
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private int max;
+    private int left;
+    public boolean isCompleteTree(TreeNode root) {
+        max = -1;
+        left = -1;
+        return dfs(root, 0);
+    }
+     
+    private boolean dfs(TreeNode root, int level) {
+        if (root == null) {
+            if (max == -1) {
+                max = level;
+                left = level;
+                return true;
+            } else {
+                if ((max == level || max-1 == level) && level <= left) {
+                    left = level;
+                    return true;
+                } else
+                    return false;
+            }
+        }
+        return dfs(root.left, level+1) && dfs(root.right, level+1);
+    }
+}
+
+
