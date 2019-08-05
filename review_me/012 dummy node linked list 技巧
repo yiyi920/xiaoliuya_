@@ -45,3 +45,82 @@ public class Solution {
 	    return p1;
     }
 }
+
+/*******************************************************************************************************************/
+一系列的题目，这个就是展示快慢指针问题。
+ListNode slow = head, fast = head.next;
+这个表示，一个指针在head，一个在head.next，强行记忆？=前面是指针？
+在上面的程序中，我们将快指针放在第二个节点上，慢指针放在第一个节点上，
+while 循环中每一次快指针走两步，慢指针走一步。这样当快指针走到头的时候，慢指针就在中点了。
+
+Middle of Linked List
+中文English
+Find the middle node of a linked list.
+
+Example
+Example 1:
+
+Input:  1->2->3
+Output: 2	
+Explanation: return the value of the middle node.
+Example 2:
+
+Input:  1->2
+Output: 1	
+Explanation: If the length of list is  even return the value of center left one.	
+Challenge
+If the linked list is in a data stream, can you find the middle without iterating the linked list again?
+
+/**
+ * Definition for ListNode
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+public class Solution {
+    /**
+     * @param head: the head of linked list.
+     * @return: a middle node of the linked list
+     */
+    public ListNode middleNode(ListNode head) { 
+        if (head == null || head.next == null) {
+            return head;
+        }
+        
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        return slow;
+    }
+}
+类似问题，有没有环
+102. Linked List Cycle
+https://www.lintcode.com/problem/linked-list-cycle/description
+关键步奏：
+这是快追上慢，套圈
+            if(fast == slow){
+                return true;
+            }
+	    
+/*******************************************************************************************************************/
+
+高级的考点：
+
+数据流问题 Data Stream Problem
+所谓的数据流问题，就是说，你需要设计一个在线系统，这个系统不断的接受一些数据，并维护这些数据的一些信息。
+比如这个问题就是在数据流中维护中点在哪儿。（维护中点的意思就是提供一个接口，来获取中点）
+
+类似的一些数据流问题还有：
+
+数据流中位数 http://www.lintcode.com/problem/data-stream-median/
+数据流最大 K 项 http://www.lintcode.com/problem/top-k-largest-numbers-ii/
+数据流高频 K 项 http://www.lintcode.com/problem/top-k-frequent-words-ii/
