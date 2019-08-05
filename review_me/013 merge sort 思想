@@ -1,0 +1,241 @@
+先中间切一刀
+排序
+然后merge
+这个会有额外空间，因为要合并数组
+/****************************************************************************************************************/
+模板：
+public class Solution {
+    /**
+     * @param A: an integer array
+     * @return: nothing
+     */
+    public void sortIntegers(int[] A) {
+        // write your code here
+        if(A == null || A.length == 0){
+            return;
+        }
+        
+        int[] temp = new int[A.length];
+        //把需要额外merge的数组放在外面，
+        mergeSort(A,0,A.length - 1, temp);
+    }
+    //分成函数的型来写
+    private void mergeSort(int[] A, int start, int end, int[] temp){
+        if(start >= end){
+            return;
+        }
+        int middle = (start + end)/2;
+        
+        mergeSort(A,start,middle, temp);
+        mergeSort(A,middle + 1,end, temp);
+        merge(A,start,end,temp);
+    }
+    
+    private void merge(int[] A, int start, int end, int[] temp){
+        int middle = (start + end)/2;
+        int leftIndex = start;
+        int rightIndex = end;
+        int index = leftIndex; // this is temp's index.
+        
+        while(leftIndex <= middle && rightIndex <= end){
+            if(A[leftIndex] < A[rightIndex]){
+                temp[index++] = A[leftIndex++];
+            }else{
+                temp[index++] = A[rightIndex++];
+            }
+        }
+        
+        while(leftIndex <= middle){
+            temp[index++] = A[leftIndex++];
+        }
+        while(rightIndex <= end){
+            temp[index++] = A[rightIndex++];
+        }
+        //目前排好序的数组在temp里，需要吧temp的里面在放回去
+        for(int i = start; i < end; i++){
+            A[i] = temp[i];
+        }
+    }
+}
+
+
+/****************************************************************************************************************/
+    /**
+     * Merge Sort.
+     */
+    public void mergeSort(int[] nums) {
+        int[] tmp = new int[nums.length];
+        mergeSort(nums, tmp, 0, nums.length - 1);
+    }
+    
+    private void mergeSort(int[] nums, int[] tmp, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        
+        // divide
+        int mid = start + (end - start) / 2;
+        mergeSort(nums, tmp, start, mid);
+        mergeSort(nums, tmp, mid + 1, end);
+        
+        // merge
+        int index = start;
+        int leftStart = start;
+        int rightStart = mid + 1;
+        
+        while (leftStart <= mid && rightStart <= end) {
+            if (nums[leftStart] <= nums[rightStart]) {
+                tmp[index++] = nums[leftStart++];
+            } else {
+                tmp[index++] = nums[rightStart++];
+            }
+        }
+        
+        while (leftStart <= mid) {
+            tmp[index++] = nums[leftStart++];
+        }
+        
+        while (rightStart <= end) {
+            tmp[index++] = nums[rightStart++];
+        }
+        
+        for (int i = start; i <= end; i++) {
+            nums[i] = tmp[i];
+        }
+    }
+    
+    
+  这面只是backup，的quicksort
+  
+  /*
+Example 1:
+	Input:  [3, 2, 1, 4, 5]
+	Output: [1, 2, 3, 4, 5]
+	
+	Explanation: 
+	return the sorted array.
+*/
+public class Solution {
+    public void sortIntegers(int[] A) {
+        // write your code here
+        if (A == null || A.length == 0) {
+            return;
+        }
+        
+        quickSort(A, 0, A.length - 1);
+    }
+    
+    
+    private void quickSort(int[] A, int start, int end) {
+        if ( start >= end) {
+            return;
+        }
+        
+        int left = start, right = end;
+        int pivot = A[(left + right) / 2];   //选的是value，不是index
+        while (left <= right) { //在while层面，解决一层问题，然后在调用第二层梦境
+            while ( A[left] < pivot && A[left] < pivot) {
+                left++;
+            }
+            
+            while(A[right] > pivot && A[right] > pivot) {
+                right--;
+            }
+            
+            if(left <= right) {
+                int tmp = A[left];
+                A[left] = A[right];
+                A[right] = tmp;
+                left++;
+                right--;
+            }
+        }
+        
+        quickSort(A, start, right);
+        quickSort(A, left, end);
+    }
+    
+}
+
+
+public class Solution {
+    /**
+     * @param A: an integer array
+     * @return: nothing
+     */
+    public void sortIntegers(int[] A) {
+        // write your code here
+        if(A == null || A.length == 0){
+            return;
+        }
+        
+        int[] temp = new int[A.length];
+        //把需要额外merge的数组放在外面，
+        mergeSort(A,0,A.length - 1, temp);
+    }
+    //分成函数的型来写
+    private void mergeSort(int[] A, int start, int end, int[] temp){
+        if(start >= end){
+            return;
+        }
+        int middle = (start + end)/2;
+        
+        mergeSort(A,start,middle, temp);
+        mergeSort(A,middle + 1,end, temp);
+        merge(A,start,end,temp);
+    }
+    
+    private void merge(int[] A, int start, int end, int[] tmp){
+    // merge
+    int mid = (start + end)/2;
+        int index = start;
+        int leftStart = start;
+        int rightStart = mid + 1;
+        
+        while (leftStart <= mid && rightStart <= end) {
+            if (A[leftStart] <= A[rightStart]) {
+                tmp[index++] = A[leftStart++];
+            } else {
+                tmp[index++] = A[rightStart++];
+            }
+        }
+        
+        while (leftStart <= mid) {
+            tmp[index++] = A[leftStart++];
+        }
+        
+        while (rightStart <= end) {
+            tmp[index++] = A[rightStart++];
+        }
+        
+        for (int i = start; i <= end; i++) {
+            A[i] = tmp[i];
+        }
+    }
+    // private void merge(int[] A, int start, int end, int[] temp){
+    //     int middle = (start + end)/2;
+    //     int leftIndex = start;
+    //     int rightIndex = middle + 1;
+    //     int index = start; // this is temp's index.
+        
+    //     while(leftIndex <= middle && rightIndex <= end){
+    //         if(A[leftIndex] <= A[rightIndex]){
+    //             temp[index++] = A[leftIndex++];
+    //         }else{
+    //             temp[index++] = A[rightIndex++];
+    //         }
+    //     }
+        
+    //     while(leftIndex <= middle){
+    //         temp[index++] = A[leftIndex++];
+    //     }
+    //     while(rightIndex <= end){
+    //         temp[index++] = A[rightIndex++];
+    //     }
+    //     //目前排好序的数组在temp里，需要吧temp的里面在放回去
+    //     for(int i = start; i < end; i++){
+    //         A[i] = temp[i];
+    //     }
+    // }
+}
+
