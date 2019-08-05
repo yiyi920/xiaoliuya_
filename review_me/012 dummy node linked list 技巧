@@ -1,0 +1,47 @@
+dummy node怎么赋值，怎么语法表示有时候会有点晕，但是写出来
+先从这个题目举例子。
+
+166. Nth to Last Node in List
+中文English
+Find the nth to last element of a singly linked list. 
+
+The minimum number of nodes in list is n.
+
+Example
+Example 1:
+	Input: list = 3->2->1->5->null, n = 2
+	Output: 1
+
+
+Example 2:
+	Input: list  = 1->2->3->null, n = 3
+	Output: 1
+  
+
+我自己的答案：
+保证快慢指针的差值是n，那快指针到尾巴的时候，停住，慢指针的地方就是答案。
+
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: Nth to last node of a singly linked list. 
+     */
+    ListNode nthToLast(ListNode head, int n) {
+        if (head == null || n < 1) {
+            return null;
+        }
+    
+        ListNode p1 = head;
+        ListNode p2 = head;
+        
+        while(p2 != null){
+            n--;
+            p2 = p2.next;
+            if(n < 0){
+                p1 = p1.next;
+            }
+        }
+	    return p1;
+    }
+}
