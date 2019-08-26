@@ -28,6 +28,7 @@ private void backtrack(List<List<Integer>> list , List<Integer> tempList, int []
 Subsets II (contains duplicates) : https://leetcode.com/problems/subsets-ii/
 
 input 有重复 【2，2，3】
+常识：如果有重复，都是需要排序，然后每次skip
 public List<List<Integer>> subsetsWithDup(int[] nums) {
     List<List<Integer>> list = new ArrayList<>();
     Arrays.sort(nums);
