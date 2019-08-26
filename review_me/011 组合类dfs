@@ -2,6 +2,10 @@
 1.连续型
 2.跳跃型（有重复的，最好使用这个。）
 
+DFS其实是
+1.分治类型，CEO-经理
+2.枚举型，for loop
+
 This structure might apply to many other backtracking questions, but here I am just going to demonstrate Subsets, Permutations, and Combination Sum.
 
 Subsets : https://leetcode.com/problems/subsets/
