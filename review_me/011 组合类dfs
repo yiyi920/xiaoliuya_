@@ -142,6 +142,14 @@ class Solution {
 }
 
 /****************************************************************************************************************/
+Let’s start with permutations, or all possible ways of doing something. 
+We’re using the fancy-pants term “permutation”, so we’re going to care about every last detail, 
+including the order of each item. Let’s say we have 8 people:
+use permutations since the order we hand out these medals matters. 
+
+Combinations sound simpler than permutations, and they are. You have fewer combinations than permutations.
+
+
 Permutations : https://leetcode.com/problems/permutations/
 
 public List<List<Integer>> permute(int[] nums) {
