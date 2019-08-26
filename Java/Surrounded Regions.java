@@ -205,7 +205,7 @@ public class Solution {
         int m = board[0].length;
 
         for (int i = 0; i < n; i++) {
-            bfs(board, i, 0);
+            bfs(board, i, 0); //这个是四条边，最上面，最下面，最左边，最右面
             bfs(board, i, m - 1);
         }
         for (int j = 0; j < m; j++) {
